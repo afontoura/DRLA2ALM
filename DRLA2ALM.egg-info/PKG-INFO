@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: DRLA2ALM
+Version: 0.1
+Summary: Custom gym environment to model an Asset-Liability Management problem
+Home-page: https://github.com/afontoura/DRLA2ALM
+Author: Alan Fontoura
+Author-email: alan.fontoura@eic.cefet-rj.br
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN

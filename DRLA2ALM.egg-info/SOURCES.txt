@@ -1,0 +1,5 @@
+DRLA2ALM.egg-info/PKG-INFO
+DRLA2ALM.egg-info/SOURCES.txt
+DRLA2ALM.egg-info/dependency_links.txt
+DRLA2ALM.egg-info/requires.txt
+DRLA2ALM.egg-info/top_level.txt
