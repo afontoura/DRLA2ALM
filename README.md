@@ -12,3 +12,4 @@ import gym
 import envs
 env = gym.make('ALM-v0', T = 30, rate = .06)
 ```
+`T` is the total time horizon, in years, which will be used. `rate` is the disocunt rate which equalizes initial assets and liability's present value. The higher the rate, the higher the liabilities.
