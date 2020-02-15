@@ -1,32 +1,14 @@
-**Status:** Maintenance (expect bug fixes and minor updates)
+A Deep Reinforcement Learning Approach to Asset-Liability Management 
+====================================================================
 
-Welcome to Spinning Up in Deep RL! 
-==================================
+This is an educational resource produced by Alan Fontoura, as part of his thesis on CEFET-RJ's computer science's Masters program.
 
-This is an educational resource produced by OpenAI that makes it easier to learn about deep reinforcement learning (deep RL).
+This code has a fully functional reinforcement learning environment base on OpenAi's gym package. To install it, just clone this repo, navigate to its main folder and run 'pip install -e .'
 
-For the unfamiliar: [reinforcement learning](https://en.wikipedia.org/wiki/Reinforcement_learning) (RL) is a machine learning approach for teaching agents how to solve tasks by trial and error. Deep RL refers to the combination of RL with [deep learning](http://ufldl.stanford.edu/tutorial/).
+To use the code, in a pyhton window, run:
 
-This module contains a variety of helpful resources, including:
-
-- a short [introduction](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html) to RL terminology, kinds of algorithms, and basic theory,
-- an [essay](https://spinningup.openai.com/en/latest/spinningup/spinningup.html) about how to grow into an RL research role,
-- a [curated list](https://spinningup.openai.com/en/latest/spinningup/keypapers.html) of important papers organized by topic,
-- a well-documented [code repo](https://github.com/openai/spinningup) of short, standalone implementations of key algorithms,
-- and a few [exercises](https://spinningup.openai.com/en/latest/spinningup/exercises.html) to serve as warm-ups.
-
-Get started at [spinningup.openai.com](https://spinningup.openai.com)!
-
-
-Citing Spinning Up
-------------------
-
-If you reference or use Spinning Up in your research, please cite:
-
-```
-@article{SpinningUp2018,
-    author = {Achiam, Joshua},
-    title = {{Spinning Up in Deep Reinforcement Learning}},
-    year = {2018}
-}
+```python
+import gym
+import envs
+env = gym.make('ALM-v0', T = 30, rate = .06)
 ```
