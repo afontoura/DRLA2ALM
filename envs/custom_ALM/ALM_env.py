@@ -51,11 +51,12 @@ class ALM(gym.Env):
         self.present_asset = self.asset
         self.present_liability = self.liability
 
-        self.action_space = spaces.Box(low = -1, high = 1, shape = (self.historical_return.shape[1],), dtype = np.float32)
+        self.action_space = spaces.Box(low = -.9999, high = .9999, shape = (self.historical_return.shape[1],), dtype = np.float32)
         self.observation_space = spaces.Box(low = -np.inf, high = np.inf, shape = self.liability.shape, dtype = np.float32)
 
     def step(self, action):
         action = action + 1
+        # action = np.exp(np.arctanh(action))
         action = action / action.sum()
         sim_ret = np.random.multivariate_normal(mean = self.historical_return.mean(axis = 0), cov = pd.DataFrame.cov(self.historical_return))
         self.present_asset = self.present_asset * np.sum(sim_ret * action) - self.present_liability[0]
