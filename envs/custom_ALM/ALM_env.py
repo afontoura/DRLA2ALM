@@ -31,36 +31,36 @@ class ALM(gym.Env):
         if (hist_returns):
             self.historical_return = hist_returns
         else:
-            self.historical_return = pd.DataFrame(np.array([[0.881818867, 1.277103375, 1.194665549, 1.196332479, 1.119897102, 1.143154236, 1.056897333],
-                                                            [0.913401974, 1.329337917, 1.183150266, 1.152575668, 1.208069962, 1.283265184, 1.03141775],
-                                                            [0.828484565, 1.436512041, 1.10733683, 1.119179339, 1.131582749, 1.190834926, 1.044573304],
-                                                            [1.319369954, 0.587765708, 1.13880019, 1.123874437, 1.138172278, 1.075195418, 1.059023134],
-                                                            [0.745057766, 1.826577896, 1.124799714, 1.09979594, 1.149761414, 1.235206438, 1.043120283],
-                                                            [0.956926258, 1.010439144, 1.118628089, 1.097598994, 1.130256361, 1.218475311, 1.059090683],
-                                                            [1.125795223, 0.818913771, 1.144601664, 1.116280628, 1.156939304, 1.144808206, 1.06503109],
-                                                            [1.089401855, 1.073968355, 1.143073697, 1.085152406, 1.169810636, 1.342007027, 1.05838569],
-                                                            [1.146366528, 0.845042, 1.025963782, 1.081912809, 1.027623167, 0.829212882, 1.059108181],
-                                                            [1.133868351, 0.970877745, 1.113965671, 1.108091597, 1.116447326, 1.16609008, 1.064076166],
-                                                            [1.470070025, 0.86685864, 1.071136115, 1.132591303, 1.154377104, 1.056908557, 1.10673498],
-                                                            [0.834639418, 1.389351542, 1.233883065, 1.138430157, 1.15524236, 1.310909455, 1.062880551],
-                                                            [1.015004142, 1.268567254, 1.152134718, 1.101916922, 1.12586988, 1.127526766, 1.029473499],
-                                                            [1.171342201, 1.15032329, 1.107351925, 1.06420429, 1.098757474, 1.154167833, 1.037454821]]),
-    columns = ['Cambio', 'Bovespa', 'IRF-M', 'IMA-S', 'IMA-B 5', 'IMA-B 5+', 'IPCA'],
+            self.historical_return = pd.DataFrame(np.array([[1.277103375, 1.138939668, 1.196332479, 1.056897333],
+                                                            [1.329337917, 1.220865211, 1.152575668, 1.031417750],
+                                                            [1.436512041, 1.140436021, 1.119179339, 1.044573304],
+                                                            [0.587765708, 1.110294883, 1.123874437, 1.059023134],
+                                                            [1.826577896, 1.189505009, 1.099795940, 1.043120283],
+                                                            [1.010439144, 1.170441620, 1.097598994, 1.059090683],
+                                                            [0.818913771, 1.151082491, 1.116280628, 1.065031090],
+                                                            [1.073968355, 1.266771188, 1.085152406, 1.058385690],
+                                                            [0.845042000, 0.899819586, 1.081912809, 1.059108181],
+                                                            [0.970877745, 1.145438240, 1.108091597, 1.064076166],
+                                                            [0.866858640, 1.088815325, 1.132591303, 1.106734980],
+                                                            [1.389351542, 1.248106035, 1.138430157, 1.062880551],
+                                                            [1.268567254, 1.127940692, 1.101916922, 1.029473499],
+                                                            [1.150323290, 1.130338666, 1.064204290, 1.037454821]]),
+    columns = ['Bovespa', 'IMA-B', 'IMA-S', 'IPCA'],
     index = np.arange(2005, 2019))
 
         self.present_asset = self.asset
         self.present_liability = self.liability
 
-        self.action_space = spaces.Box(low = -.9999, high = .9999, shape = (self.historical_return.shape[1],), dtype = np.float32)
+        self.action_space = spaces.Box(low = 0, high = 1, shape = (self.historical_return.shape[1] - 1,), dtype = np.float32)
         self.observation_space = spaces.Box(low = -np.inf, high = np.inf, shape = self.liability.shape, dtype = np.float32)
 
     def step(self, action):
-        action = action + 1
+        # action = action + 1
         # action = np.exp(np.arctanh(action))
-        action = action / action.sum()
+        # action = action / action.sum()
         sim_ret = np.random.multivariate_normal(mean = self.historical_return.mean(axis = 0), cov = pd.DataFrame.cov(self.historical_return))
-        self.present_asset = self.present_asset * np.sum(sim_ret * action) - self.present_liability[0]
-        self.present_liability = np.append(self.present_liability[1:], 0) * sim_ret[0]
+        self.present_asset = self.present_asset * np.sum(sim_ret[:-1] * action) - self.present_liability[0]
+        self.present_liability = np.append(self.present_liability[1:], 0) * sim_ret[-1]
 
         terminal = False
         if self.present_asset < 0 or np.sum(self.present_liability) == 0:
